@@ -3,6 +3,12 @@
 This small project allows the control of a door opening magnet remotely using a
 puck.js
 
+# Run on pi
+
+In a tmux session:
+1. nvm use 9.11.2
+2. node --experimental-modules discover.mjs 
+
 # Install 
 
 1. upload `puck.js` code to puck.js

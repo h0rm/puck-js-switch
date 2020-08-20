@@ -9,15 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@s524797336/noble-mac": "^0.1.2",
     "async-series": "0.0.1",
-    "bleno": "^0.5.0",
+    "bluetooth-hci-socket": "^0.5.1",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "uuid": "^3.3.2",
-    "xpc-connection": "sandeepmistry/node-xpc-connection#pull/26/head"
-  },
-  "resolutions": {
-    "xpc-connection": "sandeepmistry/node-xpc-connection#pull/26/head"
+    "noble": "^1.9.1",
+    "uuid": "^3.3.2"
   }
 }

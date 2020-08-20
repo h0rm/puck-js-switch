@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-import noble from '@s524797336/noble-mac'
+import noble from 'noble'
 import readline from 'readline';
 
 var uuid = function(uuid_with_dashes) {
@@ -9,7 +9,7 @@ var uuid = function(uuid_with_dashes) {
 
 // let uart_service = '6E400001-B5A3-F393-­E0A9-­E50E24DCCA9E'
 let UART_SERVICE = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-let device = "f3-03-1a-10-25-61"
+let device = "f3:03:1a:10:25:61"
 
 let uart = {
   service: '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
@@ -23,21 +23,25 @@ let connection = {
 }
 
 function onDiscovery(peripheral) {
-
+  //console.log(peripheral.address)
   if (peripheral.address == device) {
+    console.log('discovered puck.js')
     
     noble.stopScanning()
     peripheral.connect( (error) => {
       if (error) return console.log(error)
-
+      
+      console.log('connected to puck.js')
       connection.peripheral = peripheral
 
       peripheral.discoverSomeServicesAndCharacteristics(
-        [uart.service],
-        [uart.tx, uart.rx],
+        [],
+        [],
         (error, services, characteristics) => {
           if (error) return console.log(error)
           characteristics.map( (c) => {
+            console.log(c.uuid)
+            console.log(uuid(uart.rx))
             if (c.uuid == uuid(uart.rx)) {
               c.subscribe()
               c.on('data', logAnswer);
@@ -77,17 +81,23 @@ function sendCommand(command) {
   return `sent ${command}`
 }
 
+noble.on('discover', onDiscovery)
+noble.on('warning', (warning) => {console.log(warning)})
+noble.on('scanStart', () => {console.log('Scan started notif')})
+noble.on('scanStop', () => {console.log('Scan stopped notif')}) 
+
 noble.on('stateChange', function (state) {
+  console.log(state)
   if (state != "poweredOn") return;
-  noble.startScanning([uart.service], false);
+  console.log('start scanning')
+  noble.startScanning([], true);
 });
 
 noble.on('disconnect', () => {
   console.log('disconnected')
-  noble.startScanning([uart.service], false);
+  noble.startScanning([], true);
 })
 
-noble.on('discover', onDiscovery);
 
 const app = express();
 
