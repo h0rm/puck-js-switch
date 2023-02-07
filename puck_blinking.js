@@ -8,11 +8,7 @@ let toggle = () => {
 };
 
 let blinking = () => {
-    clearInterval();
-    toggle();
-    setInterval(function () {
-        toggle();
-    }, 500);
+    blinking_interval(500);
 };
 
 let blinking_interval = (timeout_ms) => {
@@ -23,16 +19,19 @@ let blinking_interval = (timeout_ms) => {
     setInterval(function () {
         toggle();
     }, timeout_ms);
+    state = 2;
 };
 
 let on = () => {
     clearInterval();
     digitalWrite(D1, true);
+    state = 1;
 };
 
 let off = () => {
     clearInterval();
     digitalWrite(D1, false);
+    state = 0;
 };
 
 setWatch(function () {
