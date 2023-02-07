@@ -26,9 +26,9 @@
       display: block;
       position: absolute;
       top: 70%;
-      left: 35%;
+      left: 20%;
       height: 10%;
-      width: 30%;
+      width: 60%;
     }
 
     #timer {
@@ -39,9 +39,9 @@
       font-family: "Segoe UI Light", "Segoe WPC", "Segoe UI",
         Helvetica, Arial, "Arial Unicode MS", Sans-Serif;
       top: 80%;
-      left: 35%;
+      left: 20%;
       height: 20%;
-      width: 30%;
+      width: 60%;
     }
 
     /* The slider itself */
@@ -77,7 +77,7 @@
       appearance: none;
       width: 25px;
       /* Set a specific slider handle width */
-      height: 25px;
+      height: 40px;
       /* Slider handle height */
       background: #04AA6D;
       /* Green background */
@@ -88,7 +88,7 @@
     .slider::-moz-range-thumb {
       width: 25px;
       /* Set a specific slider handle width */
-      height: 25px;
+      height: 40px;
       /* Slider handle height */
       background: #04AA6D;
       /* Green background */
@@ -97,28 +97,28 @@
     }
 
     .button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  background-color: white; 
-  color: black; 
-  border: 2px solid #4CAF50;
-}
+      background-color: #4CAF50;
+      /* Green */
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+      background-color: white;
+      color: black;
+      border: 2px solid #4CAF50;
+    }
 
 
-.button:hover {
-  background-color: #4CAF50;
-  color: white;
-}
-
+    .button:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
   </style>
 </head>
 
@@ -128,10 +128,11 @@
       <path fill="#000000"
         d="M12,2A7,7 0 0,0 5,9C5,11.38 6.19,13.47 8,14.74V17A1,1 0 0,0 9,18H15A1,1 0 0,0 16,17V14.74C17.81,13.47 19,11.38 19,9A7,7 0 0,0 12,2M9,21A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21V20H9V21Z" />
     </svg>
-    <button class="button" id="connect_btn"> connect</div>
-    <div class="slidecontainer">
-      <input type="range" min="1" max="900" value="1" class="slider" id="myRange" style="display:none">
-    </div>
+    <button class="button" id="connect_btn"> connect
+  </div>
+  <div class="slidecontainer">
+    <input type="range" min="1" max="900" value="1" class="slider" id="myRange" style="display:none">
+  </div>
   </div>
   <div id="timer">
 
@@ -161,6 +162,7 @@
       } else {
         path.style.fill = "#444";
         Puck.write('off();\n');
+        console.log("off sent per button");
         slider.style.display = "None";
       }
     });
@@ -178,14 +180,15 @@
 
     // Update the current slider value (each time you drag the slider handle)
     slider.onchange = function () {
-      console.log(this.value);
-      if (this.value == 1) {
+      var current_value = Number(this.value);
+      console.log(current_value);
+      if (current_value === 1) {
         Puck.write('on();\n');
       }
       else {
-        timeout = 1000 - this.value
+        timeout = 1000 - current_value
+        Puck.write('blinking_interval(' + timeout.toString() + ');\n');
       }
-      Puck.write('blinking_interval(' + timeout.toString() + ');\n');
     }
 
     btn.onclick = () => {
