@@ -25,10 +25,10 @@
       on = !on;
       if (on) {
         path.style.fill="red";
-        Puck.write('LED1.set();\n');
+        Puck.write('blinking();\n');
       } else {
         path.style.fill="#444";
-        Puck.write('LED1.reset();\n');
+        Puck.write('off();\n');
       }
     });
   </script>
