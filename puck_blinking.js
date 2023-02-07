@@ -8,6 +8,7 @@ let toggle = () => {
 };
 
 let blinking = () => {
+    clearInterval();
     toggle();
     setInterval(function () {
         toggle();
@@ -15,6 +16,7 @@ let blinking = () => {
 };
 
 let on = () => {
+    clearInterval();
     digitalWrite(D1, true);
 };
 
