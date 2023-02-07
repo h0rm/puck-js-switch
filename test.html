@@ -21,6 +21,7 @@
     path.style="cursor:pointer;fill:#BBB";
     // Now send commands to turn the LED on or off
     var on = false;
+    Puck.write('off();\n');
     path.addEventListener("click", function() {
       on = !on;
       if (on) {
