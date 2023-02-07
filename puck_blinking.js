@@ -15,6 +15,16 @@ let blinking = () => {
     }, 500);
 };
 
+let blinking_interval = (timeout_ms) => {
+    clearInterval();
+    toggle();
+    timeout_ms = max(timeout_ms,100) //not faster than 100ms
+    timeout_ms = min(timeout_ms,100000) //not slower than 10s
+    setInterval(function () {
+        toggle();
+    }, timeout_ms);
+};
+
 let on = () => {
     clearInterval();
     digitalWrite(D1, true);
